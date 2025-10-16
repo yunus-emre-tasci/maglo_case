@@ -2,9 +2,8 @@
 export * from "./apiClient";
 
 // Auth Services
-export * from "./authService";
+export { login, logout } from "./authService";
 export { useEnhancedAuth } from "./enhancedAuthService";
 
-// Financial Services
-export * from "./financialService";
+// Financial Services - Sadece enhanced service'i export et
 export { useEnhancedFinancial } from "./enhancedFinancialService";

@@ -40,14 +40,14 @@ export function useForm<T extends Record<string, any>>({
       if (!validationSchema) return true;
 
       try {
-        const fieldSchema = validationSchema.shape[field as string];
+        const fieldSchema = (validationSchema as any).shape[field as string];
         if (fieldSchema) {
           fieldSchema.parse(value);
         }
         return true;
       } catch (error) {
         if (error instanceof z.ZodError) {
-          return error.errors[0]?.message || "Invalid value";
+          return (error as any).errors[0]?.message || "Invalid value";
         }
         return "Invalid value";
       }
@@ -65,7 +65,7 @@ export function useForm<T extends Record<string, any>>({
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Partial<Record<keyof T, string>> = {};
-        error.errors.forEach((err) => {
+        (error as any).errors.forEach((err: any) => {
           const field = err.path[0] as keyof T;
           if (field) {
             newErrors[field] = err.message;

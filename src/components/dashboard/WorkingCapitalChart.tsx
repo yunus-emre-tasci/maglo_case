@@ -30,12 +30,6 @@ export function WorkingCapitalChart() {
   } = useQuery({
     queryKey: ["working-capital"],
     queryFn: () => apiClient.getWorkingCapital(),
-    onError: (error) => {
-      errorHandler.handleError(error, {
-        component: "WorkingCapitalChart",
-        action: "fetchWorkingCapital",
-      });
-    },
   });
 
   if (isLoading) {

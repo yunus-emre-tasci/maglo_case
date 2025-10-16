@@ -91,7 +91,7 @@ export function validateFormField<T>(
     return undefined;
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return error.errors[0]?.message;
+      return (error as any).errors[0]?.message;
     }
     return "Invalid value";
   }

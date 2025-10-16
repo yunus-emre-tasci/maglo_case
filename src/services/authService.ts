@@ -38,7 +38,6 @@ export async function register(
       localStorage.setItem("accessToken", response.data.token);
       return {
         success: true,
-        user: response.data.user,
         token: response.data.token,
       };
     }

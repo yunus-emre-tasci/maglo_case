@@ -102,7 +102,7 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
                   }}
                 >
                   <Image
-                    src={item.icon}
+                    src={item.icon as string}
                     alt={item.name}
                     width={20}
                     height={20}
@@ -149,7 +149,7 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
                   style={{ color: "#929EAE" }}
                 >
                   <Image
-                    src={item.icon}
+                    src={item.icon as string}
                     alt={item.name}
                     width={20}
                     height={20}

@@ -16,12 +16,6 @@ export function SummaryCards() {
   } = useQuery({
     queryKey: ["financial-summary"],
     queryFn: () => apiClient.getFinancialSummary(),
-    onError: (error) => {
-      errorHandler.handleError(error, {
-        component: "SummaryCards",
-        action: "fetchFinancialSummary",
-      });
-    },
   });
 
   if (isLoading) {

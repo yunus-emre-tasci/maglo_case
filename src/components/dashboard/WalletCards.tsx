@@ -291,8 +291,10 @@ export function WalletCards() {
                       onError={(e) => {
                         // Fallback to initials if avatar not found
                         e.currentTarget.style.display = "none";
-                        e.currentTarget.nextElementSibling.style.display =
-                          "flex";
+                        const nextElement = e.currentTarget.nextElementSibling;
+                        if (nextElement) {
+                          (nextElement as HTMLElement).style.display = "flex";
+                        }
                       }}
                     />
                     <div
@@ -301,7 +303,7 @@ export function WalletCards() {
                     >
                       {transfer.name
                         .split(" ")
-                        .map((n) => n[0])
+                        .map((n: string) => n[0])
                         .join("")}
                     </div>
                   </div>

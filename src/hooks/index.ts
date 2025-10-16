@@ -1,6 +1,7 @@
 // Auth hooks
 export { useAuth } from "./useAuth";
-export type { LoginData, RegisterData, User } from "./useAuth";
+export type { LoginData, RegisterData } from "./useAuth";
+export type { User } from "@/types";
 
 // Financial data hooks
 export {

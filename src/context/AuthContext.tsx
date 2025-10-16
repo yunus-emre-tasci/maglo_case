@@ -6,7 +6,9 @@ import toast from "react-hot-toast";
 import { apiClient } from "@/lib/api";
 import { AuthContextType, User, RegisterForm } from "@/types";
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -37,9 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const response = await apiClient.login(email, password);
+      const response: any = await apiClient.login(email, password);
 
-      apiClient.setToken(response.data.accessToken);
+      apiClient.setToken(response.data.token);
       setUser(response.data.user);
 
       // Show spinner for 500ms before showing success message and redirect
@@ -59,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (data: RegisterForm) => {
     try {
       setIsLoading(true);
-      const response = await apiClient.register(
+      const response: any = await apiClient.register(
         data.fullName,
         data.email,
         data.password

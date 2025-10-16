@@ -16,13 +16,14 @@ export interface User {
 
 export interface LoginResponse {
   user: User;
-  accessToken: string;
+  token: string;
 }
 
 export interface RegisterResponse {
   id: string;
   fullName: string;
   email: string;
+  token: string;
 }
 
 // Financial Summary Types

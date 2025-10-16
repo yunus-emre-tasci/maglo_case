@@ -1,0 +1,272 @@
+{
+  "servers": [
+    { "url": "http://0.0.0.0:5737/api", "description": "Development server" }
+  ],
+  "paths": {
+    "/financial/summary": {
+      "get": {
+        "summary": "Get financial summary",
+        "responses": {
+          "200": {
+            "description": "Financial summary retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Financial summary retrieved successfully.",
+                  "data": {
+                    "totalBalance": {
+                      "amount": 125750.5,
+                      "currency": "TRY",
+                      "change": { "percentage": 12.5, "trend": "up" }
+                    },
+                    "totalExpense": {
+                      "amount": 45320.75,
+                      "currency": "TRY",
+                      "change": { "percentage": -8.3, "trend": "down" }
+                    },
+                    "totalSavings": {
+                      "amount": 80429.75,
+                      "currency": "TRY",
+                      "change": { "percentage": 15.2, "trend": "up" }
+                    },
+                    "lastUpdated": "2025-10-06T10:30:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/working-capital": {
+      "get": {
+        "summary": "Get working capital data",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "Working capital data retrieved successfully.",
+              "data": {
+                "period": "last6Months",
+                "currency": "TRY",
+                "data": [
+                  {
+                    "month": "Ocak",
+                    "income": 65000,
+                    "expense": 42000,
+                    "net": 23000
+                  }
+                ],
+                "summary": {
+                  "totalIncome": 390000,
+                  "totalExpense": 252000,
+                  "netBalance": 138000
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/wallet": {
+      "get": {
+        "summary": "Get wallet cards",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "Wallet cards retrieved successfully.",
+              "data": {
+                "cards": [
+                  {
+                    "id": "card_001",
+                    "name": "Maglo Gold Card",
+                    "type": "credit",
+                    "cardNumber": "5495 7381 3759 2321",
+                    "bank": "Maglo | Universal Bank",
+                    "network": "Visa",
+                    "expiryMonth": 12,
+                    "expiryYear": 2027,
+                    "color": "#000000",
+                    "isDefault": true
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/transactions/recent": {
+      "get": {
+        "summary": "Get recent transactions",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "Recent transactions retrieved successfully.",
+              "data": {
+                "transactions": [
+                  {
+                    "id": "trx_001",
+                    "name": "iPhone 13 Pro MAX",
+                    "business": "Apple Inc.",
+                    "amount": -420.84,
+                    "currency": "TRY",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "trx_002",
+                    "name": "Netflix Subscription",
+                    "business": "Netflix",
+                    "amount": -100,
+                    "currency": "TRY",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "trx_003",
+                    "name": "Figma Subscription",
+                    "business": "Figma Inc.",
+                    "amount": -244.2,
+                    "currency": "TRY",
+                    "status": "completed"
+                  },
+                  {
+                    "id": "trx_004",
+                    "name": "Monthly Salary",
+                    "business": "Tech Corp Ltd.",
+                    "amount": 45000,
+                    "currency": "TRY",
+                    "status": "completed"
+                  }
+                ],
+                "summary": {
+                  "totalIncome": 45000,
+                  "totalExpense": 765.04,
+                  "count": 4
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/financial/transfers/scheduled": {
+      "get": {
+        "summary": "Get scheduled transfers",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "Scheduled transfers retrieved successfully.",
+              "data": {
+                "transfers": [
+                  {
+                    "id": "sch_001",
+                    "name": "Saleh Ahmed",
+                    "date": "2022-04-28T11:00:00Z",
+                    "amount": -435,
+                    "currency": "$",
+                    "status": "scheduled"
+                  }
+                ],
+                "summary": { "totalScheduledAmount": -2056, "count": 5 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "summary": "Register new user",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "User registered successfully.",
+              "data": {
+                "id": "60d0fe4f5311236168a109ca",
+                "fullName": "John Doe",
+                "email": "user@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Authenticate user",
+        "responses": {
+          "200": {
+            "example": {
+              "success": true,
+              "message": "Login successful.",
+              "data": {
+                "user": {
+                  "id": "60d0fe4f5311236168a109ca",
+                  "fullName": "John Doe",
+                  "email": "user@example.com"
+                },
+                "accessToken": "eyJh..."
+              }
+            }
+          },
+          "400": {
+            "example": {
+              "success": false,
+              "message": "Email and password are required."
+            }
+          },
+          "401": {
+            "example": {
+              "success": false,
+              "message": "Invalid email or password."
+            }
+          },
+          "403": {
+            "example": {
+              "success": false,
+              "message": "Your account has been deactivated."
+            }
+          },
+          "429": {
+            "example": {
+              "success": false,
+              "message": "Too many authentication attempts..."
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": { "summary": "Log out the user" }
+    },
+    "/users/refresh-token": {
+      "post": {
+        "summary": "Refresh access token",
+        "responses": {
+          "200": { "example": { "accessToken": "string" } }
+        }
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "summary": "Get current user profile",
+        "responses": {
+          "200": {
+            "example": {
+              "id": "60d0fe4f5311236168a109ca",
+              "fullName": "John Doe",
+              "email": "user@example.com",
+              "role": "user",
+              "isActive": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

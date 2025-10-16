@@ -11,8 +11,13 @@ import {
 } from "@/types";
 import { errorHandler, AppError } from "./errorHandler";
 
+// Check if we're in production (Netlify) or development
+const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('netlify.app');
+const isLocalDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://0.0.0.0:5737/api";
+  process.env.NEXT_PUBLIC_API_BASE_URL || 
+  (isProduction ? "/api" : isLocalDev ? "http://localhost:5737/api" : "/api");
 
 class ApiClient {
   private baseURL: string;
@@ -25,10 +30,12 @@ class ApiClient {
     }
   }
 
+
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
+
     const url = `${this.baseURL}${endpoint}`;
 
     const config: RequestInit = {

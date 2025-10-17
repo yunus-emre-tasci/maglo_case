@@ -12,11 +12,16 @@ import {
 import { errorHandler, AppError } from "./errorHandler";
 
 // Check if we're in production (Netlify) or development
-const isProduction = typeof window !== 'undefined' && window.location.hostname.includes('netlify.app');
-const isLocalDev = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+const isProduction =
+  typeof window !== "undefined" &&
+  window.location.hostname.includes("netlify.app");
+const isLocalDev =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
   (isProduction ? "/api" : isLocalDev ? "http://localhost:5737/api" : "/api");
 
 class ApiClient {
@@ -27,16 +32,17 @@ class ApiClient {
     this.baseURL = baseURL;
     if (typeof window !== "undefined") {
       this.token = localStorage.getItem("accessToken");
-      console.log("🏗️ API Client initialized with token:", this.token ? "Token exists" : "No token");
+      console.log(
+        "🏗️ API Client initialized with token:",
+        this.token ? "Token exists" : "No token"
+      );
     }
   }
-
 
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
-
     const url = `${this.baseURL}${endpoint}`;
     console.log("🌍 Making request to:", url);
 
@@ -52,17 +58,20 @@ class ApiClient {
     console.log("⚙️ Request config:", {
       method: config.method || "GET",
       headers: config.headers,
-      body: config.body ? JSON.parse(config.body as string) : undefined
+      body: config.body ? JSON.parse(config.body as string) : undefined,
     });
 
     console.log("🔐 Current token:", this.token ? "Token exists" : "No token");
-    console.log("🔐 Authorization header:", config.headers?.Authorization ? "Present" : "Missing");
+    console.log(
+      "🔐 Authorization header:",
+      config.headers?.Authorization ? "Present" : "Missing"
+    );
 
     try {
       console.log("📡 Fetching...");
       const response = await fetch(url, config);
       console.log("📥 Response status:", response.status, response.statusText);
-      
+
       const data = await response.json();
       console.log("📋 Response data:", data);
 
@@ -109,7 +118,10 @@ class ApiClient {
   }
 
   setToken(token: string | null) {
-    console.log("🔧 API Client setToken called with:", token ? "Token exists" : "No token");
+    console.log(
+      "🔧 API Client setToken called with:",
+      token ? "Token exists" : "No token"
+    );
     this.token = token;
     if (typeof window !== "undefined") {
       if (token) {
@@ -138,13 +150,17 @@ class ApiClient {
     email: string,
     password: string
   ): Promise<ApiResponse<RegisterResponse>> {
-    console.log("🌐 API register called with:", { fullName, email, password: "***" });
+    console.log("🌐 API register called with:", {
+      fullName,
+      email,
+      password: "***",
+    });
     console.log("🔗 API Base URL:", this.baseURL);
     console.log("🏭 Is Production:", isProduction);
-    
+
     const requestBody = { fullName, email, password };
     console.log("📦 Request body:", { ...requestBody, password: "***" });
-    
+
     return this.request<RegisterResponse>("/users/register", {
       method: "POST",
       body: JSON.stringify(requestBody),

@@ -33,7 +33,7 @@ export default function SignUpPage() {
     console.log("📝 Form errors:", errors);
     console.log("⏳ Is submitting:", isSubmitting);
     console.log("🔄 Is loading:", isLoading);
-    
+
     try {
       console.log("📤 Calling registerUser...");
       await registerUser(data);
@@ -74,11 +74,11 @@ export default function SignUpPage() {
               Welcome back! Please enter your details
             </p>
 
-            <form 
+            <form
               onSubmit={(e) => {
                 console.log("🎯 Form submit event triggered");
                 handleSubmit(onSubmit)(e);
-              }} 
+              }}
               className="space-y-4"
             >
               <Input
@@ -132,7 +132,12 @@ export default function SignUpPage() {
                 loading={isSubmitting || isLoading}
                 onClick={(e) => {
                   console.log("🖱️ Button clicked");
-                  console.log("📊 Button state - isSubmitting:", isSubmitting, "isLoading:", isLoading);
+                  console.log(
+                    "📊 Button state - isSubmitting:",
+                    isSubmitting,
+                    "isLoading:",
+                    isLoading
+                  );
                 }}
               >
                 Create Account

@@ -17,8 +17,11 @@ export default function DashboardPage() {
   useEffect(() => {
     // Check if token exists
     const token = localStorage.getItem("accessToken");
-    console.log("🔍 Dashboard token check:", token ? "Token exists" : "No token");
-    
+    console.log(
+      "🔍 Dashboard token check:",
+      token ? "Token exists" : "No token"
+    );
+
     if (!token) {
       console.error("❌ No token found, redirecting to signin");
       window.location.href = "/signin";

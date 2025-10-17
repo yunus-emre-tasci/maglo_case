@@ -41,8 +41,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(true);
       const response: any = await apiClient.login(email, password);
 
+      console.log("🔑 Login response:", response);
+      console.log("🎫 Token received:", response.data.token);
+
+      // Set token in both localStorage and apiClient
+      localStorage.setItem("accessToken", response.data.token);
       apiClient.setToken(response.data.token);
       setUser(response.data.user);
+
+      console.log("✅ Token set successfully");
 
       // Show spinner for 500ms before showing success message and redirect
       await new Promise((resolve) => setTimeout(resolve, 500));
@@ -51,6 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       router.push("/dashboard");
     } catch (error: any) {
+      console.error("❌ Login failed:", error);
       toast.error(error.message || "Login failed");
       throw error;
     } finally {
@@ -70,13 +78,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
       console.log("📥 API response:", response);
 
+      console.log("🎫 Register token received:", response.data.token);
+
+      // Set token in both localStorage and apiClient
+      localStorage.setItem("accessToken", response.data.token);
+      apiClient.setToken(response.data.token);
+      setUser(response.data.user);
+
+      console.log("✅ Token set successfully");
+
       // Show spinner for 500ms before showing success message and redirect
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      toast.success("Registration successful! Please log in.");
+      toast.success("Registration successful! Redirecting to dashboard...");
       console.log("✅ Registration completed successfully");
 
-      router.push("/signin");
+      router.push("/dashboard");
     } catch (error: any) {
       console.error("💥 Registration error:", error);
       toast.error(error.message || "Registration failed");

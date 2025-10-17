@@ -15,6 +15,16 @@ export default function DashboardPage() {
   const [showShimmer, setShowShimmer] = useState(true);
 
   useEffect(() => {
+    // Check if token exists
+    const token = localStorage.getItem("accessToken");
+    console.log("🔍 Dashboard token check:", token ? "Token exists" : "No token");
+    
+    if (!token) {
+      console.error("❌ No token found, redirecting to signin");
+      window.location.href = "/signin";
+      return;
+    }
+
     const timer = setTimeout(() => {
       setShowShimmer(false);
     }, 1000);

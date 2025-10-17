@@ -27,6 +27,7 @@ class ApiClient {
     this.baseURL = baseURL;
     if (typeof window !== "undefined") {
       this.token = localStorage.getItem("accessToken");
+      console.log("🏗️ API Client initialized with token:", this.token ? "Token exists" : "No token");
     }
   }
 
@@ -53,6 +54,9 @@ class ApiClient {
       headers: config.headers,
       body: config.body ? JSON.parse(config.body as string) : undefined
     });
+
+    console.log("🔐 Current token:", this.token ? "Token exists" : "No token");
+    console.log("🔐 Authorization header:", config.headers?.Authorization ? "Present" : "Missing");
 
     try {
       console.log("📡 Fetching...");
@@ -105,12 +109,15 @@ class ApiClient {
   }
 
   setToken(token: string | null) {
+    console.log("🔧 API Client setToken called with:", token ? "Token exists" : "No token");
     this.token = token;
     if (typeof window !== "undefined") {
       if (token) {
         localStorage.setItem("accessToken", token);
+        console.log("💾 Token saved to localStorage");
       } else {
         localStorage.removeItem("accessToken");
+        console.log("🗑️ Token removed from localStorage");
       }
     }
   }

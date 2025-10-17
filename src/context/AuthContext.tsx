@@ -42,11 +42,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response: any = await apiClient.login(email, password);
 
       console.log("🔑 Login response:", response);
-      console.log("🎫 Token received:", response.data.token);
+      console.log("🔍 Response structure:", {
+        success: response.success,
+        message: response.message,
+        data: response.data,
+        dataKeys: response.data ? Object.keys(response.data) : "No data"
+      });
+      // Try different token field names
+      const token = response.data.token || response.data.accessToken || response.data.authToken || response.data.jwt;
+      console.log("🎫 Token received:", token);
+      console.log("🔍 Available fields:", Object.keys(response.data));
+
+      if (!token) {
+        console.error("❌ No token found in response!");
+        throw new Error("No authentication token received");
+      }
 
       // Set token in both localStorage and apiClient
-      localStorage.setItem("accessToken", response.data.token);
-      apiClient.setToken(response.data.token);
+      localStorage.setItem("accessToken", token);
+      apiClient.setToken(token);
       setUser(response.data.user);
 
       console.log("✅ Token set successfully");
@@ -77,12 +91,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         data.password
       );
       console.log("📥 API response:", response);
+      console.log("🔍 Register response structure:", {
+        success: response.success,
+        message: response.message,
+        data: response.data,
+        dataKeys: response.data ? Object.keys(response.data) : "No data"
+      });
 
-      console.log("🎫 Register token received:", response.data.token);
+      // Try different token field names
+      const token = response.data.token || response.data.accessToken || response.data.authToken || response.data.jwt;
+      console.log("🎫 Register token received:", token);
+      console.log("🔍 Available fields:", Object.keys(response.data));
+
+      if (!token) {
+        console.error("❌ No token found in register response!");
+        throw new Error("No authentication token received");
+      }
 
       // Set token in both localStorage and apiClient
-      localStorage.setItem("accessToken", response.data.token);
-      apiClient.setToken(response.data.token);
+      localStorage.setItem("accessToken", token);
+      apiClient.setToken(token);
       setUser(response.data.user);
 
       console.log("✅ Token set successfully");

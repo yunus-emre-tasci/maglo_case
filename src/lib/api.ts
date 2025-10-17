@@ -64,7 +64,7 @@ class ApiClient {
     console.log("🔐 Current token:", this.token ? "Token exists" : "No token");
     console.log(
       "🔐 Authorization header:",
-      config.headers?.Authorization ? "Present" : "Missing"
+      (config.headers as any)?.Authorization ? "Present" : "Missing"
     );
 
     try {

@@ -82,6 +82,7 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
         <ul className="space-y-2">
           {navigationItems.map((item) => {
             const isActive = pathname === item.href;
+            const isDashboard = item.name === "Dashboard";
 
             return (
               <li key={item.name}>
@@ -94,11 +95,11 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
                       : undefined
                   }
                   className={`flex items-center px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${
-                    isActive ? "font-semibold" : "font-medium"
+                    isDashboard && isActive ? "font-semibold" : "font-medium"
                   }`}
                   style={{
-                    backgroundColor: isActive ? "#C8EE44" : "transparent",
-                    color: isActive ? "#1B212D" : "#929EAE",
+                    backgroundColor: isDashboard && isActive ? "#C8EE44" : "transparent",
+                    color: isDashboard && isActive ? "#1B212D" : "#929EAE",
                   }}
                 >
                   <Image

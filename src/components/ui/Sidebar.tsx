@@ -81,7 +81,10 @@ export function Sidebar({ user, onLogout }: SidebarProps) {
       <nav className="flex-1 p-4">
         <ul className="space-y-2">
           {navigationItems.map((item) => {
-            const isActive = pathname === item.href;
+            // Pathname matching - trailing slash'i de kontrol et
+            const normalizedPathname = pathname.replace(/\/$/, '');
+            const normalizedHref = item.href.replace(/\/$/, '');
+            const isActive = normalizedPathname === normalizedHref;
             const isDashboard = item.name === "Dashboard";
 
             return (

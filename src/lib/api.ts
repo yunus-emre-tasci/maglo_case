@@ -39,6 +39,19 @@ class ApiClient {
     }
   }
 
+  // Get token from localStorage on every request
+  private getToken(): string | null {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("accessToken");
+      if (token && token !== this.token) {
+        this.token = token;
+        console.log("🔄 Token refreshed from localStorage:", token ? "Token exists" : "No token");
+      }
+      return token;
+    }
+    return this.token;
+  }
+
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -46,10 +59,13 @@ class ApiClient {
     const url = `${this.baseURL}${endpoint}`;
     console.log("🌍 Making request to:", url);
 
+    // Always get fresh token from localStorage
+    const currentToken = this.getToken();
+    
     const config: RequestInit = {
       headers: {
         "Content-Type": "application/json",
-        ...(this.token && { Authorization: `Bearer ${this.token}` }),
+        ...(currentToken && { Authorization: `Bearer ${currentToken}` }),
         ...options.headers,
       },
       ...options,
@@ -61,7 +77,7 @@ class ApiClient {
       body: config.body ? JSON.parse(config.body as string) : undefined,
     });
 
-    console.log("🔐 Current token:", this.token ? "Token exists" : "No token");
+    console.log("🔐 Current token:", currentToken ? "Token exists" : "No token");
     console.log(
       "🔐 Authorization header:",
       (config.headers as any)?.Authorization ? "Present" : "Missing"

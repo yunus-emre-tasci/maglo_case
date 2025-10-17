@@ -135,7 +135,6 @@ export interface RegisterForm {
   fullName: string;
   email: string;
   password: string;
-  confirmPassword: string;
 }
 
 // Auth Context Types

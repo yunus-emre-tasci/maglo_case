@@ -37,6 +37,7 @@ class ApiClient {
   ): Promise<ApiResponse<T>> {
 
     const url = `${this.baseURL}${endpoint}`;
+    console.log("🌍 Making request to:", url);
 
     const config: RequestInit = {
       headers: {
@@ -47,9 +48,19 @@ class ApiClient {
       ...options,
     };
 
+    console.log("⚙️ Request config:", {
+      method: config.method || "GET",
+      headers: config.headers,
+      body: config.body ? JSON.parse(config.body as string) : undefined
+    });
+
     try {
+      console.log("📡 Fetching...");
       const response = await fetch(url, config);
+      console.log("📥 Response status:", response.status, response.statusText);
+      
       const data = await response.json();
+      console.log("📋 Response data:", data);
 
       if (!response.ok) {
         const apiError = errorHandler.createApiError(
@@ -120,9 +131,16 @@ class ApiClient {
     email: string,
     password: string
   ): Promise<ApiResponse<RegisterResponse>> {
+    console.log("🌐 API register called with:", { fullName, email, password: "***" });
+    console.log("🔗 API Base URL:", this.baseURL);
+    console.log("🏭 Is Production:", isProduction);
+    
+    const requestBody = { fullName, email, password };
+    console.log("📦 Request body:", { ...requestBody, password: "***" });
+    
     return this.request<RegisterResponse>("/users/register", {
       method: "POST",
-      body: JSON.stringify({ fullName, email, password }),
+      body: JSON.stringify(requestBody),
     });
   }
 

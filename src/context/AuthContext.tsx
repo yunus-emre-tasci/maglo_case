@@ -59,21 +59,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const register = async (data: RegisterForm) => {
+    console.log("🔐 AuthContext register called with:", data);
     try {
       setIsLoading(true);
+      console.log("📡 Calling API register...");
       const response: any = await apiClient.register(
         data.fullName,
         data.email,
         data.password
       );
+      console.log("📥 API response:", response);
 
       // Show spinner for 500ms before showing success message and redirect
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       toast.success("Registration successful! Please log in.");
+      console.log("✅ Registration completed successfully");
 
       router.push("/signin");
     } catch (error: any) {
+      console.error("💥 Registration error:", error);
       toast.error(error.message || "Registration failed");
       throw error;
     } finally {

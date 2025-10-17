@@ -29,12 +29,17 @@ export default function SignUpPage() {
   }
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log("Form submitted with data:", data);
+    console.log("🚀 Form submitted with data:", data);
+    console.log("📝 Form errors:", errors);
+    console.log("⏳ Is submitting:", isSubmitting);
+    console.log("🔄 Is loading:", isLoading);
+    
     try {
+      console.log("📤 Calling registerUser...");
       await registerUser(data);
-      console.log("Registration successful");
+      console.log("✅ Registration successful");
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("❌ Registration failed:", error);
       // Error is handled in the auth context
     }
   };
@@ -69,7 +74,13 @@ export default function SignUpPage() {
               Welcome back! Please enter your details
             </p>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form 
+              onSubmit={(e) => {
+                console.log("🎯 Form submit event triggered");
+                handleSubmit(onSubmit)(e);
+              }} 
+              className="space-y-4"
+            >
               <Input
                 label="Full Name"
                 type="text"
@@ -119,6 +130,10 @@ export default function SignUpPage() {
                 className="w-full font-semibold cursor-pointer"
                 style={{ backgroundColor: "#C8EE44" }}
                 loading={isSubmitting || isLoading}
+                onClick={(e) => {
+                  console.log("🖱️ Button clicked");
+                  console.log("📊 Button state - isSubmitting:", isSubmitting, "isLoading:", isLoading);
+                }}
               >
                 Create Account
               </Button>

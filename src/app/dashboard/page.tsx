@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { SummaryCards } from "@/components/dashboard/SummaryCards";
 import { WorkingCapitalChart } from "@/components/dashboard/WorkingCapitalChart";
 import { WalletCards } from "@/components/dashboard/WalletCards";
@@ -13,6 +14,8 @@ import {
 
 export default function DashboardPage() {
   const [showShimmer, setShowShimmer] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     // Check if token exists
@@ -24,9 +27,12 @@ export default function DashboardPage() {
 
     if (!token) {
       console.error("❌ No token found, redirecting to signin");
-      window.location.href = "/signin";
+      router.push("/signin");
       return;
     }
+
+    // Set authenticated state
+    setIsAuthenticated(true);
 
     const timer = setTimeout(() => {
       setShowShimmer(false);
@@ -34,6 +40,11 @@ export default function DashboardPage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Don't render anything if not authenticated
+  if (!isAuthenticated) {
+    return null;
+  }
 
   if (showShimmer) {
     return (

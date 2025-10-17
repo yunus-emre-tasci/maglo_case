@@ -23,10 +23,18 @@ export default function SignUpPage() {
     resolver: zodResolver(registerSchema),
   });
 
+  // Debug form errors
+  if (Object.keys(errors).length > 0) {
+    console.log("Form validation errors:", errors);
+  }
+
   const onSubmit = async (data: RegisterFormData) => {
+    console.log("Form submitted with data:", data);
     try {
       await registerUser(data);
-    } catch {
+      console.log("Registration successful");
+    } catch (error) {
+      console.error("Registration failed:", error);
       // Error is handled in the auth context
     }
   };
